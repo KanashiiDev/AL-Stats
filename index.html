@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>AL Stats</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='main.js'></script>
+</head>
+
+<body>
+    <div class="main">
+        <h1>AL Stats</h3>
+            <div>Username
+                <input type="text" class="text" id="username">
+            </div>
+            <div>Background Color
+                <input type="color" class="ColorPicker" id="bgPicker" value="#0b1622">
+            </div>
+            <div>Foreground Color
+                <input type="color" class="ColorPicker" id="fgPicker" value="#192231">
+            </div>
+            <div>Text Color
+                <input type="color" class="ColorPicker" id="txtPicker" value="#9fadbd">
+            </div>
+            <div>Detail Text Color
+                <input type="color" class="ColorPicker" id="dtxtPicker" value="#677b94">
+            </div>
+            Type
+            <div class="buttons">
+                <input type="button" class="button" id="likes" value="Likes">
+
+                <input type="button" class="button" id="genres" value="Genres">
+
+                <input type="button" class="button" id="ratings" value="Top Ratings">
+            </div>
+            <div class="likes3" style="display: none;"><input type="button" class="button" id="likes3"
+                    value="Likes Top 3"></div>
+            <div class="genres3" style="display: none;"><input type="button" class="button" id="genres3"
+                    value="Genres Top 3"></div>
+            <div class="year" style="display: none;">Rating Year: <input type="text" class="text" id="year"></div>
+            <div class="buttons">
+                <input type="button" id="Generate" class="button" value="Generate">
+                <input type="button" id="Generate2" class="button" value="Generate for AL">
+            </div>
+            <div id="result"></div>
+    </div>
+
+    </div>
+    <script>
+        let type = "";
+        let thisyear = new Date().getFullYear();
+        let year = thisyear;
+        let btnselected = 0;
+        let yearc = document.querySelector('#year').addEventListener('input', function () {
+            year = document.querySelector("#year").value;
+            type = "&score=1&year=" + year.toString();
+        });
+        let yearo = document.querySelector('#year').addEventListener('click', function () {
+            result.innerHTML = "";
+        });
+        let color = document.querySelector('#bgPicker').addEventListener('click', function () {
+            result.innerHTML = "";
+        });
+        let color2 = document.querySelector('#fgPicker').addEventListener('click', function () {
+            result.innerHTML = "";
+        });
+        let color3 = document.querySelector('#txtPicker').addEventListener('click', function () {
+            result.innerHTML = "";
+        });
+        let color4 = document.querySelector('#dtxtPicker').addEventListener('click', function () {
+            result.innerHTML = "";
+        });
+        let input = document.querySelector('#username').addEventListener('click', function () {
+            result.innerHTML = "";
+        });
+        let genres = document.querySelector('#genres').addEventListener('click', function () {
+            type = "&genres=1";
+            document.querySelector('.genres3').style.display = "block";
+            document.querySelector('.likes3').style.display = "none";
+            document.querySelector('.year').style.display = "none";
+            document.querySelector('#genres').style.backgroundColor = "#274058";
+            document.querySelector('#ratings').style.backgroundColor = "#0b1622";
+            document.querySelector('#likes').style.backgroundColor = "#0b1622";
+            document.querySelector('#likes3').style.backgroundColor = "#0b1622";
+            document.querySelector('#genres3').style.backgroundColor = "#0b1622";
+            btnselected = 1;
+            result.innerHTML = "";
+        });
+        let genres3 = document.querySelector('#genres3').addEventListener('click', function () {
+            type = "&genres3=1";
+            document.querySelector('.year').style.display = "none";
+            document.querySelector('#genres3').style.backgroundColor = "#274058";
+            document.querySelector('#genres').style.backgroundColor = "#0b1622";
+            document.querySelector('#ratings').style.backgroundColor = "#0b1622";
+            document.querySelector('#likes').style.backgroundColor = "#0b1622";
+            document.querySelector('#likes3').style.backgroundColor = "#0b1622";
+            btnselected = 1;
+            result.innerHTML = "";
+        });
+        let likes3 = document.querySelector('#likes3').addEventListener('click', function () {
+            type = "&likes3=1";
+            document.querySelector('.year').style.display = "none";
+            document.querySelector('#likes3').style.backgroundColor = "#274058";
+            document.querySelector('#likes').style.backgroundColor = "#0b1622";
+            document.querySelector('#genres').style.backgroundColor = "#0b1622";
+            document.querySelector('#ratings').style.backgroundColor = "#0b1622";
+            document.querySelector('#genres3').style.backgroundColor = "#0b1622";
+            btnselected = 1;
+            result.innerHTML = "";
+        });
+        let ratings = document.querySelector('#ratings').addEventListener('click', function () {
+            type = "&score=1&year=" + year;
+            document.querySelector('.year').style.display = "block";
+            document.querySelector('.genres3').style.display = "none";
+            document.querySelector('.likes3').style.display = "none";
+            document.querySelector('#year').value = thisyear.toString();
+            document.querySelector('#ratings').style.backgroundColor = "#274058";
+            document.querySelector('#genres').style.backgroundColor = "#0b1622";
+            document.querySelector('#likes').style.backgroundColor = "#0b1622";
+            document.querySelector('#likes3').style.backgroundColor = "#0b1622";
+            document.querySelector('#genres3').style.backgroundColor = "#0b1622";
+            btnselected = 1;
+            result.innerHTML = "";
+        });
+        let likes = document.querySelector('#likes').addEventListener('click', function () {
+            type = "&likes=1";
+            document.querySelector('.likes3').style.display = "block";
+            document.querySelector('.year').style.display = "none";
+            document.querySelector('.genres3').style.display = "none";
+            document.querySelector('#likes').style.backgroundColor = "#274058";
+            document.querySelector('#genres').style.backgroundColor = "#0b1622";
+            document.querySelector('#ratings').style.backgroundColor = "#0b1622";
+            document.querySelector('#likes3').style.backgroundColor = "#0b1622";
+            document.querySelector('#genres3').style.backgroundColor = "#0b1622";
+            btnselected = 1;
+            result.innerHTML = "";
+        });
+        let result = document.querySelector("#result");
+        let siteurl = document.location.href + "api?id=";
+        let btn = document.querySelector('#Generate').addEventListener('click', Generate);
+        let btn2 = document.querySelector('#Generate2').addEventListener('click', Generate2);
+        function Generate() {
+            let username = document.querySelector("#username").value;
+            let bgPicker = "&bg=" + document.querySelector("#bgPicker").value.replace('#', '');
+            let fgPicker = "&fg=" + document.querySelector("#fgPicker").value.replace('#', '');
+            let txtPicker = "&txtColor=" + document.querySelector("#txtPicker").value.replace('#', '');
+            let dtxtPicker = "&detailColor=" + document.querySelector("#dtxtPicker").value.replace('#', '');
+            if (username.length > 0 && year.toString().length > 3 && btnselected === 1) {
+                result.innerHTML = siteurl + username + bgPicker + fgPicker + txtPicker + dtxtPicker + type
+            }
+            else {
+                if (btnselected === 0) {
+                    result.innerHTML = "Please fill in required fields: Type";
+                }
+                if (year.toString().length < 4) {
+                    result.innerHTML = "Please fill in required fields: Year";
+                }
+                if (username.length < 1) {
+                    result.innerHTML = "Please fill in required fields: Username";
+                }
+            }
+        }
+        function Generate2() {
+            let username = document.querySelector("#username").value;
+            let bgPicker = "&bg=" + document.querySelector("#bgPicker").value.replace('#', '');
+            let fgPicker = "&fg=" + document.querySelector("#fgPicker").value.replace('#', '');
+            let txtPicker = "&txtColor=" + document.querySelector("#txtPicker").value.replace('#', '');
+            let dtxtPicker = "&detailColor=" + document.querySelector("#dtxtPicker").value.replace('#', '');
+            if (username.length > 0 && year.toString().length > 3 && btnselected === 1) {
+                result.innerHTML = "&lt;a href=&quot;" + siteurl + username + bgPicker + fgPicker + txtPicker + dtxtPicker + type + "&quot;>img(" + siteurl + username + bgPicker + fgPicker + txtPicker + dtxtPicker + type + ")&lt;/a&gt;";
+            }
+            else {
+                if (btnselected === 0) {
+                    result.innerHTML = "Please fill in required fields: Type";
+                }
+                if (year.toString().length < 4) {
+                    result.innerHTML = "Please fill in required fields: Year";
+                }
+                if (username.length < 1) {
+                    result.innerHTML = "Please fill in required fields: Username";
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
