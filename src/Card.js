@@ -1,6 +1,6 @@
 class Card {
   constructor({
-    like1, like2, like3, like4, like5, like6, like7, like8, like9, like10,
+    likesArray,
     brRadius,
     fg_opacity,
     displayName,
@@ -13,40 +13,13 @@ class Card {
     height,
     likes3list,
   }) {
+    this.slidePercent = 40;
+    this.slideSpeed = 6;
     this.likes3list = likes3list;
     this.height = height;
     this.header = "Activity Likes";
     this.width = 500;
-    this.like_1_name = like1.name;
-    this.like_1_avatar = like1.avatar;
-    this.like_1_count = "Likes: " + like1.count;
-    this.like_2_name = like2.name;
-    this.like_2_avatar = like2.avatar;
-    this.like_2_count = "Likes: " + like2.count;
-    this.like_3_name = like3.name;
-    this.like_3_avatar = like3.avatar;
-    this.like_3_count = "Likes: " + like3.count;
-    this.like_4_name = like4.name;
-    this.like_4_avatar = like4.avatar;
-    this.like_4_count = "Likes: " + like4.count;
-    this.like_5_name = like5.name;
-    this.like_5_avatar = like5.avatar;
-    this.like_5_count = "Likes: " + like5.count;
-    this.like_6_name = like6.name;
-    this.like_6_avatar = like6.avatar;
-    this.like_6_count = "Likes: " + like6.count;
-    this.like_7_name = like7.name;
-    this.like_7_avatar = like7.avatar;
-    this.like_7_count = "Likes: " + like7.count;
-    this.like_8_name = like8.name;
-    this.like_8_avatar = like8.avatar;
-    this.like_8_count = "Likes: " + like8.count;
-    this.like_9_name = like9.name;
-    this.like_9_avatar = like9.avatar;
-    this.like_9_count = "Likes: " + like9.count;
-    this.like_10_name = like10.name;
-    this.like_10_avatar = like10.avatar;
-    this.like_10_count = "Likes: " + like10.count;
+    this.likesArray = likesArray;
     this.brRadius = brRadius;
     this.fgopacity = fg_opacity;
     this.oveflows = "";
@@ -99,17 +72,52 @@ class Card {
     flex-direction: column;
     justify-content: center;
     overflow:hidden;
-    margin-left: -5px;
-    margin-top: -5px
+    margin-left: -10px;
+    padding-right: 5px;
+    padding-left: 1px;
+    width: 120px;
+    -webkit-mask-image: linear-gradient(to right,rgba(0,0,0,0),rgba(0,0,0,1) 2px, rgba(0,0,0,1), 112px, rgba(0,0,0,0) 117px, rgba(0,0,0,0));
+  }
+  .namedetails {
+    width: min-content;
+    ${this.nameheight}
+  }
+  #username-1 {
+    ${this.likesArray[0].name.length > 12 ? '-webkit-animation: marquee '+this.slideSpeed+'s linear infinite alternate;animation: marquee '+this.slideSpeed+'s linear infinite alternate;' : ""}
+  }
+  #username-2 {
+    ${this.likesArray[1].name.length > 12 ? '-webkit-animation: marquee '+this.slideSpeed+'s linear infinite alternate;animation: marquee '+this.slideSpeed+'s linear infinite alternate;' : ""}
+  }
+  #username-3 {
+    ${this.likesArray[2].name.length > 12 ? '-webkit-animation: marquee '+this.slideSpeed+'s linear infinite alternate;animation: marquee '+this.slideSpeed+'s linear infinite alternate;' : ""}
+  }
+  #username-4 {
+    ${this.likesArray[3].name.length > 12 ? '-webkit-animation: marquee '+this.slideSpeed+'s linear infinite alternate;animation: marquee '+this.slideSpeed+'s linear infinite alternate;' : ""}
+  }
+  #username-5 {
+    ${this.likesArray[4].name.length > 12 ? '-webkit-animation: marquee '+this.slideSpeed+'s linear infinite alternate;animation: marquee '+this.slideSpeed+'s linear infinite alternate;' : ""}
+  }
+  #username-6 {
+    ${this.likesArray[5].name.length > 12 ? '-webkit-animation: marquee '+this.slideSpeed+'s linear infinite alternate;animation: marquee '+this.slideSpeed+'s linear infinite alternate;' : ""}
+  }
+  #username-7 {
+    ${this.likesArray[6].name.length > 12 ? '-webkit-animation: marquee '+this.slideSpeed+'s linear infinite alternate;animation: marquee '+this.slideSpeed+'s linear infinite alternate;' : ""}
+  }
+  #username-8 {
+    ${this.likesArray[7].name.length > 12 ? '-webkit-animation: marquee '+this.slideSpeed+'s linear infinite alternate;animation: marquee '+this.slideSpeed+'s linear infinite alternate;' : ""}
+  }
+  #username-9 {
+    ${this.likesArray[8].name.length > 12 ? '-webkit-animation: marquee '+this.slideSpeed+'s linear infinite alternate;animation: marquee '+this.slideSpeed+'s linear infinite alternate;' : ""}
+  }
+  #username-10 {
+    ${this.likesArray[9].name.length > 12 ? '-webkit-animation: marquee '+this.slideSpeed+'s linear infinite alternate;animation: marquee '+this.slideSpeed+'s linear infinite alternate;' : ""}
   }
   #bgcolor{
     display: grid;
     grid-template-columns: repeat(auto-fill,210px);
     justify-content: space-evenly;
-    ${this.likes3list === 1 ? 'margin-top: 325px' : ""}
-  }
-  .namedetails {
-    ${this.nameheight}
+    ${this.likes3list !== 1 ? 'margin-top: 3px' : ""}
+    ${this.likes3list === 1 ? 'margin-top: 345px' : ""}
   }
   .cls-3 {
     font-size: 16px;
@@ -117,8 +125,6 @@ class Card {
     font-family: SegoeUI-Bold, Segoe UI;
     font-weight: 700;
     text-wrap: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
   .cls-4 {
     color: ${this.detailsColor};
@@ -131,18 +137,18 @@ class Card {
 
   .imgDiv {
     padding:20px;
-    margin-left: -4px;
+    margin-left: -7px;
     height: 60px;
     width: 60px;
   }
-  .test{
+  .likeDiv{
     display: flex;
     align-items: center;
-    height:97px;
+    height:86px;
     justify-content: flex-start;
     ${this.br ? 'border-radius:2px' : ""}
   }
-  .test2{
+  .likeDiv2{
     padding:0px 25px 0px 25px;
   }
   .detailimgDiv {
@@ -154,94 +160,118 @@ class Card {
   img#pfp-image {
     border-radius: 50px;
     object-fit: cover;
-    background-color:${this.fgColor}
+    background-color:${this.bgColor}
   }
   #header{
     text-align-last: center;
     font-size: 22px;
     padding-bottom: 6px;
-    ${this.likes3list !== 1 ? 'margin-top: 4px;' : ""}
+    ${this.likes3list !== 1 ? 'margin-top: 6px;margin-bottom: 4px;' : ""}
     ${this.likes3list === 1 ? 'position: absolute;top: 10px;left: 0;right: 0;' : ""}
   }
   a{
     text-decoration:none
   }
+  a.user{
+    background-color:${this.fgColor};
+    border-radius:6px;
+    ${this.likes3list !== 1 ? 'margin-bottom:10px' : ""}
+    ${this.likes3list === 1 ? 'margin-bottom:12px' : ""}
+  }
   img#detail-image {
     border-radius: 4px;
     object-fit: cover;
   }
+  @-moz-keyframes marquee {
+    0% {-moz-transform: translateX(0%);}
+    33% {-moz-transform: translateX(0%);}
+    100% {-moz-transform: translateX(-${this.slidePercent}%);}
+  }
+  @-webkit-keyframes marquee {
+    0% {-webkit-transform: translateX(0%);}
+    33% {-webkit-transform: translateX(0%);}
+    100% {-webkit-transform: translateX(-${this.slidePercent}%);}
+  }
+  @keyframes marquee {
+    0% {-moz-transform: translateX(0%);-webkit-transform: translateX(0%);transform: translateX(0%);}
+    33% {-moz-transform: translateX(0%);-webkit-transform: translateX(0%);transform: translateX(0%);}
+    100% {-moz-transform: translateX(-${this.slidePercent}%);-webkit-transform: translateX-${this.slidePercent}%);transform: translateX(-${this.slidePercent}%);}
+  }
   </style>
-  <foreignObject height="100%" width="100%">
-  <div id="base-shape" height="97px" width="100%" class="cls-main" xmlns="http://www.w3.org/1999/xhtml">
+<foreignObject height="100%" width="100%">
+<div id="base-shape" height="97px" width="100%" class="cls-main" xmlns="http://www.w3.org/1999/xhtml">
+<div class="cls-3" id="header" xmlns="http://www.w3.org/1999/xhtml" >${this.header}</div>
+<div id="bgcolor">
 
-  <div class="cls-3" id="header" xmlns="http://www.w3.org/1999/xhtml" >${this.header}</div>
-  <div id="bgcolor">
-  <a href="https://anilist.com/user/${this.like_1_name}">
-  <div class="test">
-  <div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml"><img id="pfp-image" height="60px" width="60px" src="${this.like_1_avatar}"/>
-  </div><div class="namediv"><div class="namedetails">
-  <div class="cls-3" id="username-text"  xmlns="http://www.w3.org/1999/xhtml" >${this.like_1_name}</div></div>
-  <div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">${this.like_1_count}</div></div></div></a>
-  <a href="https://anilist.com/user/${this.like_2_name}">
-  <div class="test">
-  <div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml">
-  <img id="pfp-image" height="60px" width="60px" src="${this.like_2_avatar}"/>
-  </div><div class="namediv"><div class="namedetails">
-  <div class="cls-3" id="username-text"  xmlns="http://www.w3.org/1999/xhtml" >${this.like_2_name}</div></div>
-  <div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">${this.like_2_count}</div></div></div></a>
-  <a href="https://anilist.com/user/${this.like_3_name}">
+<a class="user" href="https://anilist.com/user/${this.likesArray[0].name}">
+<div class="likeDiv">
+<div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml"><img id="pfp-image" height="60px" width="60px" src="${this.likesArray[0].avatar}"/>
+</div><div class="namediv"><div class="namedetails">
+<div class="cls-3" id="username-1"  xmlns="http://www.w3.org/1999/xhtml" >${this.likesArray[0].name}</div></div>
+<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">Likes: ${this.likesArray[0].count}</div></div></div></a>
 
-  <div class="test">
-<div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml"><img id="pfp-image" height="60px" width="60px" src="${this.like_3_avatar}"/>
+<a class="user" href="https://anilist.com/user/${this.likesArray[1].name}">
+<div class="likeDiv">
+<div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml"><img id="pfp-image" height="60px" width="60px" src="${this.likesArray[1].avatar}"/>
 </div><div class="namediv"><div class="namedetails">
-<div class="cls-3" id="username-text"  xmlns="http://www.w3.org/1999/xhtml" >${this.like_3_name}</div></div>
-<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">${this.like_3_count}</div></div></div></a>
-<a href="https://anilist.com/user/${this.like_4_name}">
-<div class="test">
-<div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml">
-<img id="pfp-image" height="60px" width="60px" src="${this.like_4_avatar}"/>
+<div class="cls-3" id="username-2"  xmlns="http://www.w3.org/1999/xhtml" >${this.likesArray[1].name}</div></div>
+<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">Likes: ${this.likesArray[1].count}</div></div></div></a>
+
+<a class="user" href="https://anilist.com/user/${this.likesArray[2].name}">
+<div class="likeDiv">
+<div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml"><img id="pfp-image" height="60px" width="60px" src="${this.likesArray[2].avatar}"/>
 </div><div class="namediv"><div class="namedetails">
-<div class="cls-3" id="username-text"  xmlns="http://www.w3.org/1999/xhtml" >${this.like_4_name}</div></div>
-<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">${this.like_4_count}</div></div></div></a>
-<a href="https://anilist.com/user/${this.like_5_name}">
-<div class="test">
-<div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml"><img id="pfp-image" height="60px" width="60px" src="${this.like_5_avatar}"/>
+<div class="cls-3" id="username-3"  xmlns="http://www.w3.org/1999/xhtml" >${this.likesArray[2].name}</div></div>
+<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">Likes: ${this.likesArray[2].count}</div></div></div></a>
+
+<a class="user" href="https://anilist.com/user/${this.likesArray[3].name}">
+<div class="likeDiv">
+<div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml"><img id="pfp-image" height="60px" width="60px" src="${this.likesArray[3].avatar}"/>
 </div><div class="namediv"><div class="namedetails">
-<div class="cls-3" id="username-text"  xmlns="http://www.w3.org/1999/xhtml" >${this.like_5_name}</div></div>
-<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">${this.like_5_count}</div></div></div></a>
-<a href="https://anilist.com/user/${this.like_6_name}">
-<div class="test">
-<div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml">
-<img id="pfp-image" height="60px" width="60px" src="${this.like_6_avatar}"/>
+<div class="cls-3" id="username-4"  xmlns="http://www.w3.org/1999/xhtml" >${this.likesArray[3].name}</div></div>
+<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">Likes: ${this.likesArray[3].count}</div></div></div></a>
+
+<a class="user" href="https://anilist.com/user/${this.likesArray[4].name}">
+<div class="likeDiv">
+<div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml"><img id="pfp-image" height="60px" width="60px" src="${this.likesArray[4].avatar}"/>
 </div><div class="namediv"><div class="namedetails">
-<div class="cls-3" id="username-text"  xmlns="http://www.w3.org/1999/xhtml" >${this.like_6_name}</div></div>
-<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">${this.like_6_count}</div></div></div></a>
-<a href="https://anilist.com/user/${this.like_7_name}">
-<div class="test">
-<div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml"><img id="pfp-image" height="60px" width="60px" src="${this.like_7_avatar}"/>
+<div class="cls-3" id="username-5"  xmlns="http://www.w3.org/1999/xhtml" >${this.likesArray[4].name}</div></div>
+<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">Likes: ${this.likesArray[4].count}</div></div></div></a>
+
+<a class="user" href="https://anilist.com/user/${this.likesArray[5].name}">
+<div class="likeDiv">
+<div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml"><img id="pfp-image" height="60px" width="60px" src="${this.likesArray[5].avatar}"/>
 </div><div class="namediv"><div class="namedetails">
-<div class="cls-3" id="username-text"  xmlns="http://www.w3.org/1999/xhtml" >${this.like_7_name}</div></div>
-<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">${this.like_7_count}</div></div></div></a>
-<a href="https://anilist.com/user/${this.like_8_name}">
-<div class="test">
-<div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml">
-<img id="pfp-image" height="60px" width="60px" src="${this.like_8_avatar}"/>
+<div class="cls-3" id="username-6"  xmlns="http://www.w3.org/1999/xhtml" >${this.likesArray[5].name}</div></div>
+<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">Likes: ${this.likesArray[5].count}</div></div></div></a>
+
+<a class="user" href="https://anilist.com/user/${this.likesArray[6].name}">
+<div class="likeDiv">
+<div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml"><img id="pfp-image" height="60px" width="60px" src="${this.likesArray[6].avatar}"/>
 </div><div class="namediv"><div class="namedetails">
-<div class="cls-3" id="username-text"  xmlns="http://www.w3.org/1999/xhtml" >${this.like_8_name}</div></div>
-<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">${this.like_8_count}</div></div></div></a>
-<a href="https://anilist.com/user/${this.like_9_name}">
-<div class="test">
-<div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml"><img id="pfp-image" height="60px" width="60px" src="${this.like_9_avatar}"/>
+<div class="cls-3" id="username-7"  xmlns="http://www.w3.org/1999/xhtml" >${this.likesArray[6].name}</div></div>
+<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">Likes: ${this.likesArray[6].count}</div></div></div></a>
+
+<a class="user" href="https://anilist.com/user/${this.likesArray[7].name}">
+<div class="likeDiv">
+<div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml"><img id="pfp-image" height="60px" width="60px" src="${this.likesArray[7].avatar}"/>
 </div><div class="namediv"><div class="namedetails">
-<div class="cls-3" id="username-text"  xmlns="http://www.w3.org/1999/xhtml" >${this.like_9_name}</div></div>
-<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">${this.like_9_count}</div></div></div></a>
-<a href="https://anilist.com/user/${this.like_10_name}">
-<div class="test">
-<div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml">
-<img id="pfp-image" height="60px" width="60px" src="${this.like_10_avatar}"/>
+<div class="cls-3" id="username-8"  xmlns="http://www.w3.org/1999/xhtml" >${this.likesArray[7].name}</div></div>
+<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">Likes: ${this.likesArray[7].count}</div></div></div></a>
+
+<a class="user" href="https://anilist.com/user/${this.likesArray[8].name}">
+<div class="likeDiv">
+<div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml"><img id="pfp-image" height="60px" width="60px" src="${this.likesArray[8].avatar}"/>
 </div><div class="namediv"><div class="namedetails">
-<div class="cls-3" id="username-text"  xmlns="http://www.w3.org/1999/xhtml" >${this.like_10_name}</div></div>
-<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">${this.like_10_count}</div></div></div></a>
+<div class="cls-3" id="username-9"  xmlns="http://www.w3.org/1999/xhtml" >${this.likesArray[8].name}</div></div>
+<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">Likes: ${this.likesArray[8].count}</div></div></div></a>
+
+<a class="user" href="https://anilist.com/user/${this.likesArray[9].name}">
+<div class="likeDiv">
+<div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml"><img id="pfp-image" height="60px" width="60px" src="${this.likesArray[9].avatar}"/>
+</div><div class="namediv"><div class="namedetails">
+<div class="cls-3" id="username-10"  xmlns="http://www.w3.org/1999/xhtml" >${this.likesArray[9].name}</div></div>
+<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">Likes: ${this.likesArray[9].count}</div></div></div></a>
   </div>
   </div>
   </foreignObject>

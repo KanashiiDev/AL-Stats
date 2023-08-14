@@ -25,7 +25,7 @@ module.exports = async (req, res) => {
   let brColor = "#fff";
   let userarray = [];
   let followerarray = [];
-  let like1, like2, like3, like4, like5, like6, like7, like8, like9, like10;
+  let likesArray;
   let genresarray = [];
   let scoreYear = false;
   let scoreArray = [];
@@ -112,7 +112,8 @@ module.exports = async (req, res) => {
                 var merged = [].concat.apply([], userarray);
                 let obj = {}; merged.forEach((item) => { if (!obj[item.name]) { obj[item.name] = { avatar: 0 }; obj[item.name] = { count: 1 }; } else { obj[item.name].count += 1; } })
                 var sort = Object.keys(obj).map(e => ({ name: e, ...obj[e] })).sort((a, b) => a.count - b.count)
-                like1 = sort[sort.length - 1]; like2 = sort[sort.length - 2]; like3 = sort[sort.length - 3]; like4 = sort[sort.length - 4]; like5 = sort[sort.length - 5]; like6 = sort[sort.length - 6]; like7 = sort[sort.length - 7]; like8 = sort[sort.length - 8]; like9 = sort[sort.length - 9]; like10 = sort[sort.length - 10];
+                likesArray = sort;
+                likesArray.reverse();
                 await handleData2();
               }
             }
@@ -120,42 +121,42 @@ module.exports = async (req, res) => {
           async function handleData2() {
             r();
             async function r() {
-              if (!like1) {
+              if (!likesArray) {
                 setTimeout(() => {
                   r();
                 }, 100);
               }
               else {
                 for (let x = 0; x < followerarray.length; x++) {
-                  if (followerarray[x].name === like1.name) {
-                    like1.avatar = await imageToBase64(followerarray[x].avatar.medium); like1.avatar = "data:image/jpeg;base64," + like1.avatar;
+                  if (followerarray[x].name === likesArray[0].name) {
+                    likesArray[0].avatar = await imageToBase64(followerarray[x].avatar.medium); likesArray[0].avatar = "data:image/jpeg;base64," + likesArray[0].avatar;
                   }
-                  else if (followerarray[x].name === like2.name) {
-                    like2.avatar = await imageToBase64(followerarray[x].avatar.medium); like2.avatar = "data:image/jpeg;base64," + like2.avatar;
+                  else if (followerarray[x].name === likesArray[1].name) {
+                    likesArray[1].avatar = await imageToBase64(followerarray[x].avatar.medium); likesArray[1].avatar = "data:image/jpeg;base64," + likesArray[1].avatar;
                   }
-                  else if (followerarray[x].name === like3.name) {
-                    like3.avatar = await imageToBase64(followerarray[x].avatar.medium); like3.avatar = "data:image/jpeg;base64," + like3.avatar;
+                  else if (followerarray[x].name === likesArray[2].name) {
+                    likesArray[2].avatar = await imageToBase64(followerarray[x].avatar.medium); likesArray[2].avatar = "data:image/jpeg;base64," + likesArray[2].avatar;
                   }
-                  else if (followerarray[x].name === like4.name) {
-                    like4.avatar = await imageToBase64(followerarray[x].avatar.medium); like4.avatar = "data:image/jpeg;base64," + like4.avatar;
+                  else if (followerarray[x].name === likesArray[3].name) {
+                    likesArray[3].avatar = await imageToBase64(followerarray[x].avatar.medium); likesArray[3].avatar = "data:image/jpeg;base64," + likesArray[3].avatar;
                   }
-                  else if (followerarray[x].name === like5.name) {
-                    like5.avatar = await imageToBase64(followerarray[x].avatar.medium); like5.avatar = "data:image/jpeg;base64," + like5.avatar;
+                  else if (followerarray[x].name === likesArray[4].name) {
+                    likesArray[4].avatar = await imageToBase64(followerarray[x].avatar.medium); likesArray[4].avatar = "data:image/jpeg;base64," + likesArray[4].avatar;
                   }
-                  else if (followerarray[x].name === like6.name) {
-                    like6.avatar = await imageToBase64(followerarray[x].avatar.medium); like6.avatar = "data:image/jpeg;base64," + like6.avatar;
+                  else if (followerarray[x].name === likesArray[5].name) {
+                    likesArray[5].avatar = await imageToBase64(followerarray[x].avatar.medium); likesArray[5].avatar = "data:image/jpeg;base64," + likesArray[5].avatar;
                   }
-                  else if (followerarray[x].name === like7.name) {
-                    like7.avatar = await imageToBase64(followerarray[x].avatar.medium); like7.avatar = "data:image/jpeg;base64," + like7.avatar;
+                  else if (followerarray[x].name === likesArray[6].name) {
+                    likesArray[6].avatar = await imageToBase64(followerarray[x].avatar.medium); likesArray[6].avatar = "data:image/jpeg;base64," + likesArray[6].avatar;
                   }
-                  else if (followerarray[x].name === like8.name) {
-                    like8.avatar = await imageToBase64(followerarray[x].avatar.medium); like8.avatar = "data:image/jpeg;base64," + like8.avatar;
+                  else if (followerarray[x].name === likesArray[7].name) {
+                    likesArray[7].avatar = await imageToBase64(followerarray[x].avatar.medium); likesArray[7].avatar = "data:image/jpeg;base64," + likesArray[7].avatar;
                   }
-                  else if (followerarray[x].name === like9.name) {
-                    like9.avatar = await imageToBase64(followerarray[x].avatar.medium); like9.avatar = "data:image/jpeg;base64," + like9.avatar;
+                  else if (followerarray[x].name === likesArray[8].name) {
+                    likesArray[8].avatar = await imageToBase64(followerarray[x].avatar.medium); likesArray[8].avatar = "data:image/jpeg;base64," + likesArray[8].avatar;
                   }
-                  else if (followerarray[x].name === like10.name) {
-                    like10.avatar = await imageToBase64(followerarray[x].avatar.medium); like10.avatar = "data:image/jpeg;base64," + like10.avatar;
+                  else if (followerarray[x].name === likesArray[9].name) {
+                    likesArray[9].avatar = await imageToBase64(followerarray[x].avatar.medium); likesArray[9].avatar = "data:image/jpeg;base64," + likesArray[9].avatar;
                   }
                 }
                 await handleReturn();
@@ -163,11 +164,11 @@ module.exports = async (req, res) => {
             }
           }
           async function handleReturn() {
-            let user = await like1;
+            let user = await likesArray;
             if (user) {
               let displayName = "";
               cardContent = {
-                like1, like2, like3, like4, like5, like6, like7, like8, like9, like10,
+                likesArray,
                 brRadius,
                 bgmode,
                 bgpositionx,
