@@ -40,7 +40,12 @@
                     value="Likes Top 3"></div>
             <div class="genres3" style="display: none;"><input type="button" class="button" id="genres3"
                     value="Genres Top 3"></div>
-            <div class="year" style="display: none;">Rating Year: <input type="text" class="text" id="year"></div>
+            <div class="year" style="display: none;">Rating Year: <input type="text" class="text" id="year"><br>
+                ONA
+                <input type="checkbox" class="button" id="genresona">
+                OVA
+                <input type="checkbox" class="button" id="genresova">
+            </div>
             <div class="buttons">
                 <input type="button" id="Generate" class="button" value="Generate">
                 <input type="button" id="Generate2" class="button" value="Generate for AL">
@@ -51,12 +56,34 @@
     </div>
     <script>
         let type = "";
+        let ona = "";
+        let ova = "";
         let thisyear = new Date().getFullYear();
         let year = thisyear;
         let btnselected = 0;
+        let onacheck = document.querySelector('#genresona').addEventListener('change', function () {
+            result.innerHTML = "";
+            if (this.checked) {
+                ona = "&ona=1";
+                type = "&score=1" + ona + ova+"&year=" + year.toString();
+            } else {
+                ona = "";
+                type = "&score=1" + ona + ova+"&year=" + year.toString();
+            }
+        });
+        let ovacheck = document.querySelector('#genresova').addEventListener('change', function () {
+            result.innerHTML = "";
+            if (this.checked) {
+                ova = "&ova=1";
+                type = "&score=1" + ova + ova+"&year=" + year.toString();
+            } else {
+                ova = "";
+                type = "&score=1" + ova + ona+"&year=" + year.toString();
+            }
+        });
         let yearc = document.querySelector('#year').addEventListener('input', function () {
             year = document.querySelector("#year").value;
-            type = "&score=1&year=" + year.toString();
+            type = "&score=1" + ona + ova+"&year=" + year.toString();
         });
         let yearo = document.querySelector('#year').addEventListener('click', function () {
             result.innerHTML = "";
@@ -112,6 +139,7 @@
             result.innerHTML = "";
         });
         let ratings = document.querySelector('#ratings').addEventListener('click', function () {
+            year = thisyear;
             type = "&score=1&year=" + year;
             document.querySelector('.year').style.display = "block";
             document.querySelector('.genres3').style.display = "none";

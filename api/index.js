@@ -29,9 +29,9 @@ module.exports = async (req, res) => {
   let genresarray = [];
   let scoreYear = false;
   let scoreArray = [];
-  let genre1, genre2, genre3, genre4, genre5, genre6;
+  let genre1, genre2, genre3, genre4, genre5, genre6, OVA, ONA;
   res.setHeader("Content-Type", "image/svg+xml");
-  const { id, bg, fg, fgopacity, txtColor, detailColor, border, borderColor, borderRadius, likes3, likes, genres, genres3, score, year } = req.query; {
+  const { id, bg, fg, fgopacity, txtColor, detailColor, border, borderColor, borderRadius, likes3, likes, genres, genres3, score, year, ova,ona } = req.query; {
     let error = false;
     let card;
     if (fgopacity) { fg_opacity = fgopacity; } else { fg_opacity = "0.8"; }
@@ -45,6 +45,8 @@ module.exports = async (req, res) => {
     if (likes3) { likes3list = 1; } else { likes3list = false }
     if (genres3) { genres3list = 1; } else { genres3list = false }
     if (year) { scoreYear = year; } else { scoreYear = new Date().getFullYear(); }
+    if(ova) {OVA = 1} else { OVA = 0};
+    if(ona) {ONA = 1} else { ONA = 0};
     if (likes3 || likes || genres || genres3 || score) {
       if (likes || likes3) {
         if (id) { username = id; await getid(id); c(); } else { username = ""; error = true }
@@ -418,7 +420,18 @@ module.exports = async (req, res) => {
             let dataarr = await data.data.MediaListCollection.lists;
             let dataarray = [];
             for (let x = 0; x < dataarr.length; x++) {
-              if (dataarr[x].name === "Completed" || dataarr[x].name === "Completed TV" || dataarr[x].name === "Completed Movie" || dataarr[x].name === "Completed OVA") { dataarray.push(dataarr[x].entries) }
+              if(OVA == 1 && ONA == 1){
+                if (dataarr[x].name === "Completed" || dataarr[x].name === "Completed TV" || dataarr[x].name === "Completed Movie" || dataarr[x].name === "Completed OVA" || dataarr[x].name === "Completed ONA") { dataarray.push(dataarr[x].entries) }
+              }
+              else if(OVA == 1){
+                if (dataarr[x].name === "Completed" || dataarr[x].name === "Completed TV" || dataarr[x].name === "Completed Movie" || dataarr[x].name === "Completed OVA") { dataarray.push(dataarr[x].entries) }
+              }
+              else if(ONA == 1){
+                if (dataarr[x].name === "Completed" || dataarr[x].name === "Completed TV" || dataarr[x].name === "Completed Movie" || dataarr[x].name === "Completed ONA") { dataarray.push(dataarr[x].entries) }
+              }
+              else {
+                if (dataarr[x].name === "Completed" || dataarr[x].name === "Completed TV" || dataarr[x].name === "Completed Movie") { dataarray.push(dataarr[x].entries) }
+              }
               var merged = [].concat.apply([], dataarray);
               var sort = Object.keys(merged).map(e => ({ _: e, ...merged[e] })).sort((a, b) => a.score - b.score);
               sort.reverse();
