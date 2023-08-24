@@ -26,12 +26,13 @@ module.exports = async (req, res) => {
   let userarray = [];
   let followerarray = [];
   let likesArray;
+  let likeLimit = 10;
   let genresarray = [];
   let scoreYear = false;
   let scoreArray = [];
   let genre1, genre2, genre3, genre4, genre5, genre6, OVA, ONA;
   res.setHeader("Content-Type", "image/svg+xml");
-  const { id, bg, fg, fgopacity, txtColor, detailColor, border, borderColor, borderRadius, likes3, likes, genres, genres3, score, year, ova,ona } = req.query; {
+  const { id, bg, fg, fgopacity, txtColor, detailColor, border, borderColor, borderRadius, likes3, likes, genres, genres3, score, year, ova, ona } = req.query; {
     let error = false;
     let card;
     if (fgopacity) { fg_opacity = fgopacity; } else { fg_opacity = "0.8"; }
@@ -45,8 +46,8 @@ module.exports = async (req, res) => {
     if (likes3) { likes3list = 1; } else { likes3list = false }
     if (genres3) { genres3list = 1; } else { genres3list = false }
     if (year) { scoreYear = year; } else { scoreYear = new Date().getFullYear(); }
-    if(ova) {OVA = 1} else { OVA = 0};
-    if(ona) {ONA = 1} else { ONA = 0};
+    if (ova) { OVA = 1 } else { OVA = 0 };
+    if (ona) { ONA = 1 } else { ONA = 0 };
     if (likes3 || likes || genres || genres3 || score) {
       if (likes || likes3) {
         if (id) { username = id; await getid(id); c(); } else { username = ""; error = true }
@@ -69,54 +70,119 @@ module.exports = async (req, res) => {
           }
         }
         async function getFollowers() {
-          recall();
-          var page = 1;
-          async function recall() {
-            var query = `query ($id: Int!, $page: Int) {Page (page: $page) {pageInfo{currentPage hasNextPage}
-      followers(userId: $id, sort:USERNAME) {name avatar{medium} id}}}`;
-            var variables = { id: userid, page: page };
-            let url = 'https://graphql.anilist.co', options = {
-              method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-              body: JSON.stringify({ query: query, variables: variables })
-            };
-            fetch(url, options).then(handleResponse).then(handleData).catch(handleError);
-            async function handleResponse(response) { return response.json().then(function (json) { return response.ok ? json : Promise.reject(json); }); }
-            async function handleData(data) {
-              for (let x = 0; x < data.data.Page.followers.length; x++) {
-                { followerarray.push(data.data.Page.followers[x]) }
+          var query = `query ($id: Int!, $page: Int) {Page (page: $page) {pageInfo{lastPage}
+          followers(userId: $id, sort:USERNAME) {name avatar{medium} id}}}`;
+          let querydata = "";
+          let lastpage;
+          var variables = { id: userid, page: 1 };
+          let url = 'https://graphql.anilist.co', options = {
+            method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({ query: query, variables: variables })
+          };
+          fetch(url, options).then(handleResponse).then(handleData).catch(handleError);
+          function handleResponse(response) { return response.json().then(function (json) { return response.ok ? json : Promise.reject(json); }); }
+          async function handleData(data) {
+            data.data.Page.followers.forEach(follower => { followerarray.push(follower); })
+            if (data.data.Page.pageInfo.lastPage > 1) { lastpage = data.data.Page.pageInfo.lastPage + 1; recall(); }
+            else { await getActivities(); }
+            async function recall() {
+              for (let x = 1; x < lastpage; x++) {
+                if (x == 1) {
+                  querydata += "query {"
+                }
+                querydata += "Page" + x + ": Page(page: " + x + ") {followers(userId: " + userid + ", sort: USERNAME) {name avatar {medium}id}}"
+                if (x + 1 == lastpage) {
+                  querydata += "}";
+                  recall2();
+                }
               }
-              if (data.data.Page.pageInfo.hasNextPage === true) { page = data.data.Page.pageInfo.currentPage + 1; recall(); }
-              else { await getlist() }
+            }
+            async function recall2() {
+              let query = querydata;
+              let url = 'https://graphql.anilist.co', options = {
+                method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify({ query: query, variables: variables })
+              };
+              fetch(url, options).then(handleResponse).then(handleData).catch(handleError);
+              function handleResponse(response) { return response.json().then(function (json) { return response.ok ? json : Promise.reject(json); }); }
+              async function handleData(data) {
+                for (let x = 1; x < lastpage; x++) {
+                  let p = eval("data.data.Page" + x);
+                  p.followers.forEach(follower => { followerarray.push(follower); });
+                  if (x + 1 == lastpage) {
+                    getActivities();
+                  }
+                }
+              }
             }
           }
-          function handleError(error) {
-            console.error(error);
-          }
+          function handleError(error) { console.error(error); }
         }
-        async function getlist() {
-          recall();
-          var page2 = 1;
-          async function recall() {
-            var query = `query ($userId: Int, $page: Int)  {Page (page: $page) {pageInfo{currentPage hasNextPage} activities(sort: ID_DESC,userId: $userId){... on MessageActivity {likes{name}}... on TextActivity {likes{name}}... on ListActivity {likes{name}}}}}`;
-            var variables = { userId: userid, page: page2 };
-            let url = 'https://graphql.anilist.co', options = { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ query: query, variables: variables }) };
-            fetch(url, options).then(handleResponse).then(handleData).then(handleData2).catch(handleError);
-            async function handleResponse(response) { return response.json().then(function (json) { return response.ok ? json : Promise.reject(json); }); }
-            async function handleData(data) {
-              let result = followerarray.map(a => a.name);
-              let x = 0;
-              data.data.Page.activities.forEach(like => {
-                like.likes.forEach(liked => { if (result.indexOf(liked.name) > -1) { userarray.push(liked); x = 0 } else { x++; } })
+        async function getActivities() {
+          var query = `query ($userId: Int, $page: Int)  {Page (page: $page  perPage:50) {pageInfo{lastPage}
+           activities(sort: ID_DESC,userId: $userId){... on MessageActivity {likes{name}}... on TextActivity {likes{name}}... on ListActivity {likes{name}}}}}`;
+          let querydata = "";
 
-              })
-              if (data.data.Page.pageInfo.hasNextPage === true && page2 < 10) { page2 = data.data.Page.pageInfo.currentPage + 1; await recall(); }
-              else {
-                var merged = [].concat.apply([], userarray);
-                let obj = {}; merged.forEach((item) => { if (!obj[item.name]) { obj[item.name] = { avatar: 0 }; obj[item.name] = { count: 1 }; } else { obj[item.name].count += 1; } })
-                var sort = Object.keys(obj).map(e => ({ name: e, ...obj[e] })).sort((a, b) => a.count - b.count)
-                likesArray = sort;
-                likesArray.reverse();
-                await handleData2();
+          var variables = { id: userid, page: 1 };
+          let url = 'https://graphql.anilist.co', options = {
+            method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({ query: query, variables: variables })
+          };
+          fetch(url, options).then(handleResponse).then(handleData).catch(handleError);
+          function handleResponse(response) { return response.json().then(function (json) { return response.ok ? json : Promise.reject(json); }); }
+          async function handleData(data) {
+            if (data.data.Page.pageInfo.lastPage > 1) { recall(); }
+            else {
+              likeLimit = 1; recall();
+            }
+            async function recall() {
+              for (let x = 1; x < likeLimit; x++) {
+                if (x == 1) {
+                  querydata += "query {"
+                }
+                querydata += "Page" + x + ": Page(page: " + x + " perPage:50) {activities(sort: ID_DESC,userId: " + userid + "){... on MessageActivity {likes{name}}... on TextActivity {likes{name}}... on ListActivity {likes{name}}}}";
+                if (x + 1 == likeLimit) {
+                  querydata += "}";
+                  await recall2();
+                }
+              }
+            }
+            async function recall2() {
+              let query = querydata;
+              let url = 'https://graphql.anilist.co', options = {
+                method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify({ query: query, variables: variables })
+              };
+              fetch(url, options).then(handleResponse).then(handleData).catch(handleError);
+              function handleResponse(response) { return response.json().then(function (json) { return response.ok ? json : Promise.reject(json); }); }
+              async function handleData(data) {
+                let likearr = [];
+                for (let x = 1; x < likeLimit; x++) {
+                  eval("data.data.Page" + x).activities.forEach(like => {
+                    likearr.push(like.likes);
+                  })
+                  if (x + 1 == likeLimit) {
+                    var merged2 = [].concat.apply([], likearr);
+                    merged2.forEach(l => {
+
+                      for (let x = 0; x < followerarray.length; x++) {
+                        if (followerarray[x].name == l.name) {
+                          userarray.push({ name: followerarray[x].name, avatar: followerarray[x].avatar.medium });
+                        }
+                      }
+                    })
+                    let obj = {};
+                    userarray.forEach((item) => {
+                      if (!obj[item.name]) { obj[item.name] = item; obj[item.name].avatar = item.avatar; obj[item.name].count = 0; }
+                      else { obj[item.name].avatar = item.avatar; obj[item.name].count += 1; }
+                    })
+                    var sort = Object.keys(obj).map(e => ({ name: e, ...obj[e] })).sort((a, b) => a.count - b.count)
+                    likesArray = sort;
+                    likesArray.reverse();
+                    while (likesArray.length < 10) { likesArray.push({ name: "", count: 0, avatar: "data:image/jpeg;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" }) }
+                    await handleData2();
+                  }
+                }
               }
             }
           }
@@ -126,39 +192,47 @@ module.exports = async (req, res) => {
               if (!likesArray) {
                 setTimeout(() => {
                   r();
-                }, 100);
+                }, 80);
               }
               else {
-                for (let x = 0; x < followerarray.length; x++) {
-                  if (followerarray[x].name === likesArray[0].name) {
-                    likesArray[0].avatar = await imageToBase64(followerarray[x].avatar.medium); likesArray[0].avatar = "data:image/jpeg;base64," + likesArray[0].avatar;
+                if (likesArray[0].count >= 1) {
+                  likesArray[0].avatar = "data:image/jpeg;base64," + await imageToBase64(likesArray[0].avatar);
+                }
+                if (likesArray[1].count >= 1) {
+                  likesArray[1].avatar = "data:image/jpeg;base64," + await imageToBase64(likesArray[1].avatar);
+                }
+                if (likesArray[2].count >= 1) {
+                  likesArray[2].avatar = "data:image/jpeg;base64," + await imageToBase64(likesArray[2].avatar);
+                }
+                if (likesArray[3].count >= 1) {
+                  likesArray[3].avatar = "data:image/jpeg;base64," + await imageToBase64(likesArray[3].avatar);
+                }
+                if (likesArray[4].count >= 1) {
+                  likesArray[4].avatar = "data:image/jpeg;base64," + await imageToBase64(likesArray[4].avatar);
+                }
+                if (likesArray[5].count >= 1) {
+                  likesArray[5].avatar = "data:image/jpeg;base64," + await imageToBase64(likesArray[5].avatar);
+                }
+                if (likesArray[6].count >= 1) {
+                  likesArray[6].avatar = "data:image/jpeg;base64," + await imageToBase64(likesArray[6].avatar);
+                }
+                if (likesArray[7].count >= 1) {
+                  likesArray[7].avatar = "data:image/jpeg;base64," + await imageToBase64(likesArray[7].avatar);
+                }
+                if (likesArray[8].count >= 1) {
+                  likesArray[8].avatar = "data:image/jpeg;base64," + await imageToBase64(likesArray[8].avatar);
+                }
+                if (likesArray[9].count >= 1) {
+                  likesArray[9].avatar = "data:image/jpeg;base64," + await imageToBase64(likesArray[9].avatar);
+                }
+                for (let i = 0; i < likesArray.length; i++) {
+                  if (likesArray[i].count >= 1) {
+                    likesArray[i].count = "Likes: " + likesArray[i].count;
                   }
-                  else if (followerarray[x].name === likesArray[1].name) {
-                    likesArray[1].avatar = await imageToBase64(followerarray[x].avatar.medium); likesArray[1].avatar = "data:image/jpeg;base64," + likesArray[1].avatar;
-                  }
-                  else if (followerarray[x].name === likesArray[2].name) {
-                    likesArray[2].avatar = await imageToBase64(followerarray[x].avatar.medium); likesArray[2].avatar = "data:image/jpeg;base64," + likesArray[2].avatar;
-                  }
-                  else if (followerarray[x].name === likesArray[3].name) {
-                    likesArray[3].avatar = await imageToBase64(followerarray[x].avatar.medium); likesArray[3].avatar = "data:image/jpeg;base64," + likesArray[3].avatar;
-                  }
-                  else if (followerarray[x].name === likesArray[4].name) {
-                    likesArray[4].avatar = await imageToBase64(followerarray[x].avatar.medium); likesArray[4].avatar = "data:image/jpeg;base64," + likesArray[4].avatar;
-                  }
-                  else if (followerarray[x].name === likesArray[5].name) {
-                    likesArray[5].avatar = await imageToBase64(followerarray[x].avatar.medium); likesArray[5].avatar = "data:image/jpeg;base64," + likesArray[5].avatar;
-                  }
-                  else if (followerarray[x].name === likesArray[6].name) {
-                    likesArray[6].avatar = await imageToBase64(followerarray[x].avatar.medium); likesArray[6].avatar = "data:image/jpeg;base64," + likesArray[6].avatar;
-                  }
-                  else if (followerarray[x].name === likesArray[7].name) {
-                    likesArray[7].avatar = await imageToBase64(followerarray[x].avatar.medium); likesArray[7].avatar = "data:image/jpeg;base64," + likesArray[7].avatar;
-                  }
-                  else if (followerarray[x].name === likesArray[8].name) {
-                    likesArray[8].avatar = await imageToBase64(followerarray[x].avatar.medium); likesArray[8].avatar = "data:image/jpeg;base64," + likesArray[8].avatar;
-                  }
-                  else if (followerarray[x].name === likesArray[9].name) {
-                    likesArray[9].avatar = await imageToBase64(followerarray[x].avatar.medium); likesArray[9].avatar = "data:image/jpeg;base64," + likesArray[9].avatar;
+                  else {
+                    likesArray[i].count = "";
+                    likesArray[i].name = "";
+                    likesArray[i].avatar = "data:image/jpeg;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
                   }
                 }
                 await handleReturn();
@@ -420,13 +494,13 @@ module.exports = async (req, res) => {
             let dataarr = await data.data.MediaListCollection.lists;
             let dataarray = [];
             for (let x = 0; x < dataarr.length; x++) {
-              if(OVA == 1 && ONA == 1){
+              if (OVA == 1 && ONA == 1) {
                 if (dataarr[x].name === "Completed" || dataarr[x].name === "Completed TV" || dataarr[x].name === "Completed Movie" || dataarr[x].name === "Completed OVA" || dataarr[x].name === "Completed ONA") { dataarray.push(dataarr[x].entries) }
               }
-              else if(OVA == 1){
+              else if (OVA == 1) {
                 if (dataarr[x].name === "Completed" || dataarr[x].name === "Completed TV" || dataarr[x].name === "Completed Movie" || dataarr[x].name === "Completed OVA") { dataarray.push(dataarr[x].entries) }
               }
-              else if(ONA == 1){
+              else if (ONA == 1) {
                 if (dataarr[x].name === "Completed" || dataarr[x].name === "Completed TV" || dataarr[x].name === "Completed Movie" || dataarr[x].name === "Completed ONA") { dataarray.push(dataarr[x].entries) }
               }
               else {

@@ -208,70 +208,70 @@ class Card {
 <div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml"><img id="pfp-image" height="60px" width="60px" src="${this.likesArray[0].avatar}"/>
 </div><div class="namediv"><div class="namedetails">
 <div class="cls-3" id="username-1"  xmlns="http://www.w3.org/1999/xhtml" >${this.likesArray[0].name}</div></div>
-<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">Likes: ${this.likesArray[0].count}</div></div></div></a>
+<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">${this.likesArray[0].count}</div></div></div></a>
 
 <a class="user" href="https://anilist.com/user/${this.likesArray[1].name}">
 <div class="likeDiv">
 <div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml"><img id="pfp-image" height="60px" width="60px" src="${this.likesArray[1].avatar}"/>
 </div><div class="namediv"><div class="namedetails">
 <div class="cls-3" id="username-2"  xmlns="http://www.w3.org/1999/xhtml" >${this.likesArray[1].name}</div></div>
-<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">Likes: ${this.likesArray[1].count}</div></div></div></a>
+<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">${this.likesArray[1].count}</div></div></div></a>
 
 <a class="user" href="https://anilist.com/user/${this.likesArray[2].name}">
 <div class="likeDiv">
 <div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml"><img id="pfp-image" height="60px" width="60px" src="${this.likesArray[2].avatar}"/>
 </div><div class="namediv"><div class="namedetails">
 <div class="cls-3" id="username-3"  xmlns="http://www.w3.org/1999/xhtml" >${this.likesArray[2].name}</div></div>
-<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">Likes: ${this.likesArray[2].count}</div></div></div></a>
+<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">${this.likesArray[2].count}</div></div></div></a>
 
 <a class="user" href="https://anilist.com/user/${this.likesArray[3].name}">
 <div class="likeDiv">
 <div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml"><img id="pfp-image" height="60px" width="60px" src="${this.likesArray[3].avatar}"/>
 </div><div class="namediv"><div class="namedetails">
 <div class="cls-3" id="username-4"  xmlns="http://www.w3.org/1999/xhtml" >${this.likesArray[3].name}</div></div>
-<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">Likes: ${this.likesArray[3].count}</div></div></div></a>
+<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">${this.likesArray[3].count}</div></div></div></a>
 
 <a class="user" href="https://anilist.com/user/${this.likesArray[4].name}">
 <div class="likeDiv">
 <div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml"><img id="pfp-image" height="60px" width="60px" src="${this.likesArray[4].avatar}"/>
 </div><div class="namediv"><div class="namedetails">
 <div class="cls-3" id="username-5"  xmlns="http://www.w3.org/1999/xhtml" >${this.likesArray[4].name}</div></div>
-<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">Likes: ${this.likesArray[4].count}</div></div></div></a>
+<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">${this.likesArray[4].count}</div></div></div></a>
 
 <a class="user" href="https://anilist.com/user/${this.likesArray[5].name}">
 <div class="likeDiv">
 <div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml"><img id="pfp-image" height="60px" width="60px" src="${this.likesArray[5].avatar}"/>
 </div><div class="namediv"><div class="namedetails">
 <div class="cls-3" id="username-6"  xmlns="http://www.w3.org/1999/xhtml" >${this.likesArray[5].name}</div></div>
-<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">Likes: ${this.likesArray[5].count}</div></div></div></a>
+<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">${this.likesArray[5].count}</div></div></div></a>
 
 <a class="user" href="https://anilist.com/user/${this.likesArray[6].name}">
 <div class="likeDiv">
 <div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml"><img id="pfp-image" height="60px" width="60px" src="${this.likesArray[6].avatar}"/>
 </div><div class="namediv"><div class="namedetails">
 <div class="cls-3" id="username-7"  xmlns="http://www.w3.org/1999/xhtml" >${this.likesArray[6].name}</div></div>
-<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">Likes: ${this.likesArray[6].count}</div></div></div></a>
+<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">${this.likesArray[6].count}</div></div></div></a>
 
 <a class="user" href="https://anilist.com/user/${this.likesArray[7].name}">
 <div class="likeDiv">
 <div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml"><img id="pfp-image" height="60px" width="60px" src="${this.likesArray[7].avatar}"/>
 </div><div class="namediv"><div class="namedetails">
 <div class="cls-3" id="username-8"  xmlns="http://www.w3.org/1999/xhtml" >${this.likesArray[7].name}</div></div>
-<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">Likes: ${this.likesArray[7].count}</div></div></div></a>
+<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">${this.likesArray[7].count}</div></div></div></a>
 
 <a class="user" href="https://anilist.com/user/${this.likesArray[8].name}">
 <div class="likeDiv">
 <div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml"><img id="pfp-image" height="60px" width="60px" src="${this.likesArray[8].avatar}"/>
 </div><div class="namediv"><div class="namedetails">
 <div class="cls-3" id="username-9"  xmlns="http://www.w3.org/1999/xhtml" >${this.likesArray[8].name}</div></div>
-<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">Likes: ${this.likesArray[8].count}</div></div></div></a>
+<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">${this.likesArray[8].count}</div></div></div></a>
 
 <a class="user" href="https://anilist.com/user/${this.likesArray[9].name}">
 <div class="likeDiv">
 <div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml"><img id="pfp-image" height="60px" width="60px" src="${this.likesArray[9].avatar}"/>
 </div><div class="namediv"><div class="namedetails">
 <div class="cls-3" id="username-10"  xmlns="http://www.w3.org/1999/xhtml" >${this.likesArray[9].name}</div></div>
-<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">Likes: ${this.likesArray[9].count}</div></div></div></a>
+<div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">${this.likesArray[9].count}</div></div></div></a>
   </div>
   </div>
   </foreignObject>
