@@ -45,6 +45,8 @@
                 <input type="checkbox" class="button" id="genresona">
                 OVA
                 <input type="checkbox" class="button" id="genresova">
+                <br>
+                <input type="button" class="button" id="currently" value="Currently Watching">
             </div>
             <div class="buttons">
                 <input type="button" id="Generate" class="button" value="Generate">
@@ -56,6 +58,7 @@
     </div>
     <script>
         let type = "";
+        let currentyear = "";
         let ona = "";
         let ova = "";
         let thisyear = new Date().getFullYear();
@@ -65,25 +68,25 @@
             result.innerHTML = "";
             if (this.checked) {
                 ona = "&ona=1";
-                type = "&score=1" + ona + ova+"&year=" + year.toString();
+                type = currentyear + "&score=1" + ona + ova + "&year=" + year.toString();
             } else {
                 ona = "";
-                type = "&score=1" + ona + ova+"&year=" + year.toString();
+                type = currentyear + "&score=1" + ona + ova + "&year=" + year.toString();
             }
         });
         let ovacheck = document.querySelector('#genresova').addEventListener('change', function () {
             result.innerHTML = "";
             if (this.checked) {
                 ova = "&ova=1";
-                type = "&score=1" + ova + ova+"&year=" + year.toString();
+                type = currentyear + "&score=1" + ova + ova + "&year=" + year.toString();
             } else {
                 ova = "";
-                type = "&score=1" + ova + ona+"&year=" + year.toString();
+                type = currentyear + "&score=1" + ova + ona + "&year=" + year.toString();
             }
         });
         let yearc = document.querySelector('#year').addEventListener('input', function () {
             year = document.querySelector("#year").value;
-            type = "&score=1" + ona + ova+"&year=" + year.toString();
+            type = currentyear + "&score=1" + ona + ova + "&year=" + year.toString();
         });
         let yearo = document.querySelector('#year').addEventListener('click', function () {
             result.innerHTML = "";
@@ -116,6 +119,18 @@
             btnselected = 1;
             result.innerHTML = "";
         });
+        let currently = document.querySelector('#currently').addEventListener('click', function () {
+            currentyear = "&amp;current=1";
+            year = thisyear;
+            type = currentyear + "&score=1&year=" + year;
+            document.querySelector('#year').value = thisyear.toString();
+            document.querySelector('#currently').style.backgroundColor = "#274058";
+            document.querySelector('#ratings').style.backgroundColor = "#0b1622";
+            document.querySelector('#genresona').checked = false;
+            document.querySelector('#genresova').checked = false;
+            btnselected = 1;
+            result.innerHTML = "";
+        });
         let genres3 = document.querySelector('#genres3').addEventListener('click', function () {
             type = "&genres3=1";
             document.querySelector('.year').style.display = "none";
@@ -140,12 +155,14 @@
         });
         let ratings = document.querySelector('#ratings').addEventListener('click', function () {
             year = thisyear;
+            currentyear = "";
             type = "&score=1&year=" + year;
             document.querySelector('.year').style.display = "block";
             document.querySelector('.genres3').style.display = "none";
             document.querySelector('.likes3').style.display = "none";
             document.querySelector('#year').value = thisyear.toString();
             document.querySelector('#ratings').style.backgroundColor = "#274058";
+            document.querySelector('#currently').style.backgroundColor = "#0b1622";
             document.querySelector('#genres').style.backgroundColor = "#0b1622";
             document.querySelector('#likes').style.backgroundColor = "#0b1622";
             document.querySelector('#likes3').style.backgroundColor = "#0b1622";
