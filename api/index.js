@@ -29,25 +29,29 @@ module.exports = async (req, res) => {
   let likeLimit = 10;
   let genresarray = [];
   let scoreYear = false;
+  let thisYear = false;
   let scoreArray = [];
-  let genre1, genre2, genre3, genre4, genre5, genre6, OVA, ONA;
+  let genre1, genre2, genre3, genre4, genre5, genre6, OVA, ONA,currently;
+  const b64 = "data:image/jpeg;base64,";
   res.setHeader("Content-Type", "image/svg+xml");
-  const { id, bg, fg, fgopacity, txtColor, detailColor, border, borderColor, borderRadius, likes3, likes, genres, genres3, score, year, ova, ona } = req.query; {
+  const { current, id, bg, fg, fgopacity, txtColor, detailColor, border, borderColor, borderRadius, likes3, likes, genres, genres3, score, year,thisyear, ova, ona } = req.query; {
     let error = false;
     let card;
-    if (fgopacity) { fg_opacity = fgopacity; } else { fg_opacity = "0.8"; }
-    if (bg) { bgColor = "#" + bg; } else { bgColor = "#0b1622"; }
-    if (fg) { fgColor = "#" + fg; } else { fgColor = "#192231"; }
-    if (txtColor) { textColor = "#" + txtColor; } else { textColor = "#fff"; }
-    if (detailColor) { detailsColor = "#" + detailColor; } else { detailsColor = "#ededed"; }
-    if (border) { br = "1px solid"; } else { br = "0"; }
-    if (borderColor) { brColor = "#" + borderColor; } else { brColor = "#fff"; }
-    if (borderRadius) { brRadius = borderRadius + "px"; } else { brRadius = "0px"; }
-    if (likes3) { likes3list = 1; } else { likes3list = false }
-    if (genres3) { genres3list = 1; } else { genres3list = false }
-    if (year) { scoreYear = year; } else { scoreYear = new Date().getFullYear(); }
-    if (ova) { OVA = 1 } else { OVA = 0 };
-    if (ona) { ONA = 1 } else { ONA = 0 };
+    currently = current ? true : false;
+    fg_opacity = fgopacity ? fgopacity : "0.8";
+    bgColor = bg ? "#" + bg : "#0b1622";
+    fgColor = fg ? "#" + fg : "#192231";
+    textColor = txtColor ? "#" + txtColor : "#fff";
+    detailsColor = detailColor ? "#" + detailColor : "#ededed";
+    br = border ? "1px solid" : "0";
+    brColor = borderColor ? "#" + borderColor : "#fff";
+    brRadius = borderRadius ? borderRadius + "px" : "0px";
+    likes3list = likes3 ? 1 : false;
+    genres3list = genres3 ? 1 : false;
+    scoreYear = year ? year : new Date().getFullYear();
+    thisYear = thisyear ? true : false;
+    OVA = ova ? 1 : 0;
+    ONA = ona ? 1 : 0;
     if (likes3 || likes || genres || genres3 || score) {
       if (likes || likes3) {
         if (id) { username = id; await getid(id); c(); } else { username = ""; error = true }
@@ -192,38 +196,38 @@ module.exports = async (req, res) => {
               if (!likesArray) {
                 setTimeout(() => {
                   r();
-                }, 80);
+                }, 1);
               }
               else {
                 if (likesArray[0].count >= 1) {
-                  likesArray[0].avatar = "data:image/jpeg;base64," + await imageToBase64(likesArray[0].avatar);
+                  likesArray[0].avatar = b64 + await imageToBase64(likesArray[0].avatar);
                 }
                 if (likesArray[1].count >= 1) {
-                  likesArray[1].avatar = "data:image/jpeg;base64," + await imageToBase64(likesArray[1].avatar);
+                  likesArray[1].avatar = b64 + await imageToBase64(likesArray[1].avatar);
                 }
                 if (likesArray[2].count >= 1) {
-                  likesArray[2].avatar = "data:image/jpeg;base64," + await imageToBase64(likesArray[2].avatar);
+                  likesArray[2].avatar = b64 + await imageToBase64(likesArray[2].avatar);
                 }
                 if (likesArray[3].count >= 1) {
-                  likesArray[3].avatar = "data:image/jpeg;base64," + await imageToBase64(likesArray[3].avatar);
+                  likesArray[3].avatar = b64 + await imageToBase64(likesArray[3].avatar);
                 }
                 if (likesArray[4].count >= 1) {
-                  likesArray[4].avatar = "data:image/jpeg;base64," + await imageToBase64(likesArray[4].avatar);
+                  likesArray[4].avatar = b64 + await imageToBase64(likesArray[4].avatar);
                 }
                 if (likesArray[5].count >= 1) {
-                  likesArray[5].avatar = "data:image/jpeg;base64," + await imageToBase64(likesArray[5].avatar);
+                  likesArray[5].avatar = b64 + await imageToBase64(likesArray[5].avatar);
                 }
                 if (likesArray[6].count >= 1) {
-                  likesArray[6].avatar = "data:image/jpeg;base64," + await imageToBase64(likesArray[6].avatar);
+                  likesArray[6].avatar = b64 + await imageToBase64(likesArray[6].avatar);
                 }
                 if (likesArray[7].count >= 1) {
-                  likesArray[7].avatar = "data:image/jpeg;base64," + await imageToBase64(likesArray[7].avatar);
+                  likesArray[7].avatar = b64 + await imageToBase64(likesArray[7].avatar);
                 }
                 if (likesArray[8].count >= 1) {
-                  likesArray[8].avatar = "data:image/jpeg;base64," + await imageToBase64(likesArray[8].avatar);
+                  likesArray[8].avatar = b64 + await imageToBase64(likesArray[8].avatar);
                 }
                 if (likesArray[9].count >= 1) {
-                  likesArray[9].avatar = "data:image/jpeg;base64," + await imageToBase64(likesArray[9].avatar);
+                  likesArray[9].avatar = b64 + await imageToBase64(likesArray[9].avatar);
                 }
                 for (let i = 0; i < likesArray.length; i++) {
                   if (likesArray[i].count >= 1) {
@@ -241,6 +245,21 @@ module.exports = async (req, res) => {
           }
           async function handleReturn() {
             let user = await likesArray;
+            let likeheight = 550;
+            console.log(user);
+            if (user[8].count.length < 1) {
+              likeheight = 450;
+            }
+            if (user[6].count.length < 1) {
+              likeheight = 350;
+            }
+            if (user[4].count.length < 1) {
+              likeheight = 250;
+            }
+            if (user[2].count.length < 1) {
+              likeheight = 150;
+            } 
+
             if (user) {
               let displayName = "";
               cardContent = {
@@ -259,7 +278,7 @@ module.exports = async (req, res) => {
                 brColor,
                 fgColor,
                 likes3list,
-                height: 550,
+                height: likeheight,
               }
             } usercontent = true; return cardContent;
           }
@@ -389,7 +408,7 @@ module.exports = async (req, res) => {
                   genresarray[0].mediaIds = { media: genremediaarray };
                   for (let x = 0; x < genresarray[0].mediaIds.media.length; x++) {
                     genresarray[0].mediaIds.media[x][0].coverImage.medium = await imageToBase64(genresarray[0].mediaIds.media[x][0].coverImage.medium);
-                    genresarray[0].mediaIds.media[x][0].coverImage.medium = "data:image/jpeg;base64," + genresarray[0].mediaIds.media[x][0].coverImage.medium;
+                    genresarray[0].mediaIds.media[x][0].coverImage.medium = b64 + genresarray[0].mediaIds.media[x][0].coverImage.medium;
                   }
                   genre1 = await genresarray[0];
                 };
@@ -397,7 +416,7 @@ module.exports = async (req, res) => {
                   genresarray[1].mediaIds = { media: genremediaarray };
                   for (let x = 0; x < genresarray[1].mediaIds.media.length; x++) {
                     genresarray[1].mediaIds.media[x][0].coverImage.medium = await imageToBase64(genresarray[1].mediaIds.media[x][0].coverImage.medium);
-                    genresarray[1].mediaIds.media[x][0].coverImage.medium = "data:image/jpeg;base64," + genresarray[1].mediaIds.media[x][0].coverImage.medium;
+                    genresarray[1].mediaIds.media[x][0].coverImage.medium = b64 + genresarray[1].mediaIds.media[x][0].coverImage.medium;
                   }
                   genre2 = await genresarray[1];
                 }
@@ -405,7 +424,7 @@ module.exports = async (req, res) => {
                   genresarray[2].mediaIds = { media: genremediaarray };
                   for (let x = 0; x < genresarray[2].mediaIds.media.length; x++) {
                     genresarray[2].mediaIds.media[x][0].coverImage.medium = await imageToBase64(genresarray[2].mediaIds.media[x][0].coverImage.medium);
-                    genresarray[2].mediaIds.media[x][0].coverImage.medium = "data:image/jpeg;base64," + genresarray[2].mediaIds.media[x][0].coverImage.medium;
+                    genresarray[2].mediaIds.media[x][0].coverImage.medium = b64 + genresarray[2].mediaIds.media[x][0].coverImage.medium;
                   }
                   genre3 = await genresarray[2];
                 }
@@ -413,7 +432,7 @@ module.exports = async (req, res) => {
                   genresarray[3].mediaIds = { media: genremediaarray };
                   for (let x = 0; x < genresarray[3].mediaIds.media.length; x++) {
                     genresarray[3].mediaIds.media[x][0].coverImage.medium = await imageToBase64(genresarray[3].mediaIds.media[x][0].coverImage.medium);
-                    genresarray[3].mediaIds.media[x][0].coverImage.medium = "data:image/jpeg;base64," + genresarray[3].mediaIds.media[x][0].coverImage.medium;
+                    genresarray[3].mediaIds.media[x][0].coverImage.medium = b64 + genresarray[3].mediaIds.media[x][0].coverImage.medium;
                   }
                   genre4 = await genresarray[3];
                 }
@@ -421,7 +440,7 @@ module.exports = async (req, res) => {
                   genresarray[4].mediaIds = { media: genremediaarray };
                   for (let x = 0; x < genresarray[4].mediaIds.media.length; x++) {
                     genresarray[4].mediaIds.media[x][0].coverImage.medium = await imageToBase64(genresarray[4].mediaIds.media[x][0].coverImage.medium);
-                    genresarray[4].mediaIds.media[x][0].coverImage.medium = "data:image/jpeg;base64," + genresarray[4].mediaIds.media[x][0].coverImage.medium;
+                    genresarray[4].mediaIds.media[x][0].coverImage.medium = b64 + genresarray[4].mediaIds.media[x][0].coverImage.medium;
                   }
                   genre5 = await genresarray[4];
                 }
@@ -429,7 +448,7 @@ module.exports = async (req, res) => {
                   genresarray[5].mediaIds = { media: genremediaarray };
                   for (let x = 0; x < genresarray[5].mediaIds.media.length; x++) {
                     genresarray[5].mediaIds.media[x][0].coverImage.medium = await imageToBase64(genresarray[5].mediaIds.media[x][0].coverImage.medium);
-                    genresarray[5].mediaIds.media[x][0].coverImage.medium = "data:image/jpeg;base64," + genresarray[5].mediaIds.media[x][0].coverImage.medium;
+                    genresarray[5].mediaIds.media[x][0].coverImage.medium = b64 + genresarray[5].mediaIds.media[x][0].coverImage.medium;
                   }
                   genre6 = await genresarray[5];
                 }
@@ -479,9 +498,13 @@ module.exports = async (req, res) => {
           let dateYearStart = parseInt(dateYear + "0000");
           let dateYearEnd = parseInt(dateYear + "1231");
           let username = id;
-          var query = `query ($id: String, $yearstart: FuzzyDateInt, $yearend: FuzzyDateInt) {
+          var query = 
+          currently ? `query ($id: String) {
+            MediaListCollection(userName:$id,type:ANIME,status:CURRENT, sort:SCORE_DESC){lists{name entries{... mediaListEntry }}}}
+            fragment mediaListEntry on MediaList{score media {siteUrl seasonYear title {romaji} coverImage {medium}}}`
+            : `query ($id: String, $yearstart: FuzzyDateInt, $yearend: FuzzyDateInt) {
             MediaListCollection(userName:$id,type:ANIME,status:COMPLETED, sort:SCORE_DESC, completedAt_greater:$yearstart, completedAt_lesser:$yearend){lists{name entries{... mediaListEntry }}}}
-            fragment mediaListEntry on MediaList{score media {siteUrl title {romaji} coverImage {medium}}}`;
+            fragment mediaListEntry on MediaList{score media {siteUrl seasonYear title {romaji} coverImage {medium}}}`;
           var variables = { id: username, yearstart: dateYearStart, yearend: dateYearEnd };
           let url = 'https://graphql.anilist.co', options = {
             method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
@@ -494,17 +517,67 @@ module.exports = async (req, res) => {
             let dataarr = await data.data.MediaListCollection.lists;
             let dataarray = [];
             for (let x = 0; x < dataarr.length; x++) {
-              if (OVA == 1 && ONA == 1) {
-                if (dataarr[x].name === "Completed" || dataarr[x].name === "Completed TV" || dataarr[x].name === "Completed Movie" || dataarr[x].name === "Completed OVA" || dataarr[x].name === "Completed ONA") { dataarray.push(dataarr[x].entries) }
-              }
-              else if (OVA == 1) {
-                if (dataarr[x].name === "Completed" || dataarr[x].name === "Completed TV" || dataarr[x].name === "Completed Movie" || dataarr[x].name === "Completed OVA") { dataarray.push(dataarr[x].entries) }
-              }
-              else if (ONA == 1) {
-                if (dataarr[x].name === "Completed" || dataarr[x].name === "Completed TV" || dataarr[x].name === "Completed Movie" || dataarr[x].name === "Completed ONA") { dataarray.push(dataarr[x].entries) }
+              if(currently){
+                if (dataarr[x].name === "Watching") {
+ 
+                  for(let y = 0; y < dataarr[x].entries.length; y++){
+dataarray.push(dataarr[x].entries[y])
+                  }
+                   }
               }
               else {
-                if (dataarr[x].name === "Completed" || dataarr[x].name === "Completed TV" || dataarr[x].name === "Completed Movie") { dataarray.push(dataarr[x].entries) }
+              if (OVA == 1 && ONA == 1) {
+                if (dataarr[x].name === "Completed" || 
+                dataarr[x].name === "Completed TV" || 
+                dataarr[x].name === "Completed Movie" || 
+                dataarr[x].name === "Completed OVA" || 
+                dataarr[x].name === "Completed ONA") {
+                  for(let y = 0; y < dataarr[x].entries.length; y++){
+                    if(thisYear){
+                    if(dataarr[x].entries[y].media.seasonYear === parseInt(scoreYear)){
+                      dataarray.push(dataarr[x].entries[y])}} 
+                    else {dataarray.push(dataarr[x].entries[y])}
+                  }
+                   }
+              }
+              else if (OVA == 1) {
+                if (dataarr[x].name === "Completed" || 
+                dataarr[x].name === "Completed TV" || 
+                dataarr[x].name === "Completed Movie" || 
+                dataarr[x].name === "Completed OVA") {  
+                  for(let y = 0; y < dataarr[x].entries.length; y++){
+                    if(thisYear){
+                    if(dataarr[x].entries[y].media.seasonYear === parseInt(scoreYear)){
+                      dataarray.push(dataarr[x].entries[y])}} 
+                    else {dataarray.push(dataarr[x].entries[y])}
+                  }
+                }
+              }
+              else if (ONA == 1) {
+                if (dataarr[x].name === "Completed" || 
+                dataarr[x].name === "Completed TV" || 
+                dataarr[x].name === "Completed Movie" || 
+                dataarr[x].name === "Completed ONA") {  
+                  for(let y = 0; y < dataarr[x].entries.length; y++){
+                    if(thisYear){
+                    if(dataarr[x].entries[y].media.seasonYear === parseInt(scoreYear)){
+                      dataarray.push(dataarr[x].entries[y])}} 
+                    else {dataarray.push(dataarr[x].entries[y])}
+                  }
+                }
+              }
+              else {
+                if (dataarr[x].name === "Completed" || 
+                dataarr[x].name === "Completed TV" || 
+                dataarr[x].name === "Completed Movie") {  
+                  for(let y = 0; y < dataarr[x].entries.length; y++){
+                    if(thisYear){
+                    if(dataarr[x].entries[y].media.seasonYear === parseInt(scoreYear)){
+                      dataarray.push(dataarr[x].entries[y])}} 
+                    else {dataarray.push(dataarr[x].entries[y])}
+                  }
+                }
+              }
               }
               var merged = [].concat.apply([], dataarray);
               var sort = Object.keys(merged).map(e => ({ _: e, ...merged[e] })).sort((a, b) => a.score - b.score);
@@ -513,22 +586,13 @@ module.exports = async (req, res) => {
             }
             r();
             async function r() {
-              if (scoreArray.length <= 2) {
-                setTimeout(() => {
-                  r();
-                }, 100);
+ 
+           {
+            for (let i = 0; i < scoreArray.length; i++) {
+              if (scoreArray[i].media.coverImage.medium) {
+                scoreArray[i].media.coverImage.medium = b64 + await imageToBase64(scoreArray[i].media.coverImage.medium);
               }
-              else {
-                scoreArray[0].media.coverImage.medium = "data:image/jpeg;base64," + await imageToBase64(scoreArray[0].media.coverImage.medium);
-                scoreArray[1].media.coverImage.medium = "data:image/jpeg;base64," + await imageToBase64(scoreArray[1].media.coverImage.medium);
-                scoreArray[2].media.coverImage.medium = "data:image/jpeg;base64," + await imageToBase64(scoreArray[2].media.coverImage.medium);
-                scoreArray[3].media.coverImage.medium = "data:image/jpeg;base64," + await imageToBase64(scoreArray[3].media.coverImage.medium);
-                scoreArray[4].media.coverImage.medium = "data:image/jpeg;base64," + await imageToBase64(scoreArray[4].media.coverImage.medium);
-                scoreArray[5].media.coverImage.medium = "data:image/jpeg;base64," + await imageToBase64(scoreArray[5].media.coverImage.medium);
-                scoreArray[6].media.coverImage.medium = "data:image/jpeg;base64," + await imageToBase64(scoreArray[6].media.coverImage.medium);
-                scoreArray[7].media.coverImage.medium = "data:image/jpeg;base64," + await imageToBase64(scoreArray[7].media.coverImage.medium);
-                scoreArray[8].media.coverImage.medium = "data:image/jpeg;base64," + await imageToBase64(scoreArray[8].media.coverImage.medium);
-                scoreArray[9].media.coverImage.medium = "data:image/jpeg;base64," + await imageToBase64(scoreArray[9].media.coverImage.medium);
+            }
                 await handleReturn();
               }
             }
@@ -540,6 +604,7 @@ module.exports = async (req, res) => {
             if (score) {
               let displayName = "";
               cardContent = {
+                currently,
                 scoreYear,
                 scoreArray,
                 brRadius,
@@ -555,7 +620,7 @@ module.exports = async (req, res) => {
                 br,
                 brColor,
                 fgColor,
-                height: 450,
+                height: scoreArray[6] ? 450: 230,
               }
             } usercontent = true; return cardContent;
           }
@@ -577,7 +642,7 @@ module.exports = async (req, res) => {
           }
         }
         else {
-          setTimeout(c, 50); return
+          setTimeout(c, 1); return
         }
       };
       if (error) {

@@ -1,5 +1,6 @@
   class Card {
     constructor({
+      currently,
       scoreArray,
       scoreYear,
       brRadius,
@@ -18,18 +19,18 @@
       this.slideSpeed = 8;
       this.slideSpeed2 = 8;
       this.height = height;
-      this.header = scoreYear+" Top Ratings";
+      this.header = currently ? "Current Ratings" : scoreYear+" Top Ratings";
       this.width = 500;
-      this.genre_1 = scoreArray[0];
-      this.genre_2 = scoreArray[1];
-      this.genre_3 = scoreArray[2];
-      this.genre_4 = scoreArray[3];
-      this.genre_5 = scoreArray[4];
-      this.genre_6 = scoreArray[5];
-      this.genre_7 = scoreArray[6];
-      this.genre_8 = scoreArray[7];
-      this.genre_9 = scoreArray[8];
-      this.genre_10 = scoreArray[9];
+      this.genre_1 = scoreArray[0] ? scoreArray[0] : null;
+      this.genre_2 = scoreArray[1] ? scoreArray[1] : null;
+      this.genre_3 = scoreArray[2] ? scoreArray[2] : null;
+      this.genre_4 = scoreArray[3] ? scoreArray[3] : null;
+      this.genre_5 = scoreArray[4] ? scoreArray[4] : null;
+      this.genre_6 = scoreArray[5] ? scoreArray[5] : null;
+      this.genre_7 = scoreArray[6] ? scoreArray[6] : null;
+      this.genre_8 = scoreArray[7] ? scoreArray[7] : null;
+      this.genre_9 = scoreArray[8] ? scoreArray[8] : null;
+      this.genre_10 = scoreArray[9] ? scoreArray[9] : null;
       this.brRadius = brRadius;
       this.fgopacity = fg_opacity;
       this.oveflows = "";
@@ -41,6 +42,7 @@
       this.brColor = brColor;
       this.fgColor = fgColor;
       this.nameheight = "height: 24px";
+      this.defname = 'height: 100%;align-self: start;width: 64px;-webkit-animation: marquee '+this.slideSpeed+'s linear infinite alternate;animation: marquee '+this.slideSpeed+'s linear infinite alternate;'
     }
     render() {
       return `
@@ -70,7 +72,7 @@
       border:${this.br};
       border-color:${this.brColor};
       min-width: 460px;
-      min-height: 410px;
+      min-height: ${this.genre_6? "410px" : "190px"};
       max-width: 460px;
       max-height: 410px
     }
@@ -80,7 +82,7 @@
       justify-content: space-evenly;
     }
     .namedetails {
-      line-height: 12px;
+      line-height: 12.1px;
       padding-bottom: 2px;
       padding-top: 1px;
       align-items: center;
@@ -89,6 +91,9 @@
       height: 48px;
       min-height:48px;
       max-height:48px;
+      width: 65px;
+      min-width: 65px;
+      max-width: 65px;
       -webkit-mask-image: linear-gradient(to bottom,rgb(0 0 0 / 0%),rgba(0,0,0,1) 5px, rgba(0,0,0,1) 48px, rgba(0,0,0,0));
     }
     .cls-3 {
@@ -161,34 +166,34 @@
       100% {-moz-transform: translateY(-${this.slidePercent}%);-webkit-transform: translateY-${this.slidePercent}%);transform: translateY(-${this.slidePercent}%);}
     }
     #name1{
-      ${this.genre_1.media.title.romaji.length >= this.textLimit ? 'height: 100%;align-self: start;width: 64px;-webkit-animation: marquee '+this.slideSpeed+'s linear infinite alternate;animation: marquee '+this.slideSpeed+'s linear infinite alternate;' : ""}
+      ${this.genre_1 && this.genre_1.media.title.romaji.length >= this.textLimit ? this.defname : ""}
     }
     #name2{
-      ${this.genre_2.media.title.romaji.length >= this.textLimit ? 'height: 100%;align-self: start;width: 64px;-webkit-animation: marquee '+this.slideSpeed+'s linear infinite alternate;animation: marquee '+this.slideSpeed+'s linear infinite alternate;' : ""}
+      ${this.genre_2 &&this.genre_2.media.title.romaji.length >= this.textLimit ? this.defname : ""}
     }
     #name3{
-      ${this.genre_3.media.title.romaji.length >= this.textLimit ? 'height: 100%;align-self: start;width: 64px;-webkit-animation: marquee '+this.slideSpeed+'s linear infinite alternate;animation: marquee '+this.slideSpeed+'s linear infinite alternate;' : ""}
+      ${this.genre_3 &&this.genre_3.media.title.romaji.length >= this.textLimit ? this.defname : ""}
     }
     #name4{
-      ${this.genre_4.media.title.romaji.length >= this.textLimit ? 'height: 100%;align-self: start;width: 64px;-webkit-animation: marquee '+this.slideSpeed+'s linear infinite alternate;animation: marquee '+this.slideSpeed+'s linear infinite alternate;' : ""}
+      ${this.genre_4 &&this.genre_4.media.title.romaji.length >= this.textLimit ? this.defname : ""}
     }
     #name5{
-      ${this.genre_5.media.title.romaji.length >= this.textLimit ? 'height: 100%;align-self: start;width: 64px;-webkit-animation: marquee '+this.slideSpeed+'s linear infinite alternate;animation: marquee '+this.slideSpeed+'s linear infinite alternate;' : ""}
+      ${this.genre_5 &&this.genre_5.media.title.romaji.length >= this.textLimit ? this.defname : ""}
     }
     #name6{
-      ${this.genre_6.media.title.romaji.length >= this.textLimit ? 'height: 100%;align-self: start;width: 64px;-webkit-animation: marquee '+this.slideSpeed+'s linear infinite alternate;animation: marquee '+this.slideSpeed+'s linear infinite alternate;' : ""}
+      ${this.genre_6 &&this.genre_6.media.title.romaji.length >= this.textLimit ? this.defname : ""}
     }
     #name7{
-      ${this.genre_7.media.title.romaji.length >= this.textLimit ? 'height: 100%;align-self: start;width: 64px;-webkit-animation: marquee '+this.slideSpeed+'s linear infinite alternate;animation: marquee '+this.slideSpeed+'s linear infinite alternate;' : ""}
+      ${this.genre_7 &&this.genre_7.media.title.romaji.length >= this.textLimit ? this.defname : ""}
     }
     #name8{
-      ${this.genre_8.media.title.romaji.length >= this.textLimit ? 'height: 100%;align-self: start;width: 64px;-webkit-animation: marquee '+this.slideSpeed+'s linear infinite alternate;animation: marquee '+this.slideSpeed+'s linear infinite alternate;' : ""}
+      ${this.genre_8 &&this.genre_8.media.title.romaji.length >= this.textLimit ? this.defname : ""}
     }
     #name9{
-      ${this.genre_9.media.title.romaji.length >= this.textLimit ? 'height: 100%;align-self: start;width: 64px;-webkit-animation: marquee '+this.slideSpeed+'s linear infinite alternate;animation: marquee '+this.slideSpeed+'s linear infinite alternate;' : ""}
+      ${this.genre_9 &&this.genre_9.media.title.romaji.length >= this.textLimit ? this.defname : ""}
     }
     #name10{
-      ${this.genre_10.media.title.romaji.length >= this.textLimit ? 'height: 100%;align-self: start;width: 64px;-webkit-animation: marquee '+this.slideSpeed+'s linear infinite alternate;animation: marquee '+this.slideSpeed+'s linear infinite alternate;' : ""}
+      ${this.genre_10 &&this.genre_10.media.title.romaji.length >= this.textLimit ? this.defname : ""}
     }
     }
     </style>
@@ -197,6 +202,7 @@
 
     <div class="cls-3" id="header" xmlns="http://www.w3.org/1999/xhtml" >${this.header}</div>
     <div id="bgcolor">
+    ${this.genre_1 ? `
     <div class="test">
     <div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml">
     <a href="${this.genre_1.media.siteUrl}"><img id="pfp-image" height="50px" width="35px" src="${this.genre_1.media.coverImage.medium}"/></a>
@@ -206,7 +212,8 @@
     <div class="details" xmlns="http://www.w3.org/1999/xhtml">
     <div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">Score<b class='value'>${this.genre_1.score}</b></div>
     </div>
-    </div>
+    </div>`:""}
+    ${this.genre_2 ? `
     <div class="test">
     <div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml">
     <a href="${this.genre_2.media.siteUrl}"><img id="pfp-image" height="50px" width="35px" src="${this.genre_2.media.coverImage.medium}"/></a>
@@ -216,7 +223,8 @@
     <div class="details" xmlns="http://www.w3.org/1999/xhtml">
     <div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">Score<b class='value'>${this.genre_2.score}</b></div>
     </div>
-    </div>
+    </div>`:""}
+    ${this.genre_3 ? `
     <div class="test">
     <div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml">
     <a href="${this.genre_3.media.siteUrl}"><img id="pfp-image" height="50px" width="35px" src="${this.genre_3.media.coverImage.medium}"/></a>
@@ -226,7 +234,8 @@
     <div class="details" xmlns="http://www.w3.org/1999/xhtml">
     <div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">Score<b class='value'>${this.genre_3.score}</b></div>
     </div>
-    </div>
+    </div>`:""}
+    ${this.genre_4 ? `
     <div class="test">
     <div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml">
     <a href="${this.genre_4.media.siteUrl}"><img id="pfp-image" height="50px" width="35px" src="${this.genre_4.media.coverImage.medium}"/></a>
@@ -236,7 +245,8 @@
     <div class="details" xmlns="http://www.w3.org/1999/xhtml">
     <div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">Score<b class='value'>${this.genre_4.score}</b></div>
     </div>
-    </div>
+    </div>`:""}
+    ${this.genre_5 ? `
     <div class="test">
     <div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml">
     <a href="${this.genre_5.media.siteUrl}"><img id="pfp-image" height="50px" width="35px" src="${this.genre_5.media.coverImage.medium}"/></a>
@@ -246,7 +256,8 @@
     <div class="details" xmlns="http://www.w3.org/1999/xhtml">
     <div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">Score<b class='value'>${this.genre_5.score}</b></div>
     </div>
-    </div>
+    </div>`:""}
+    ${this.genre_6 ? `
     <div class="test">
     <div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml">
     <a href="${this.genre_6.media.siteUrl}"><img id="pfp-image" height="50px" width="35px" src="${this.genre_6.media.coverImage.medium}"/></a>
@@ -256,7 +267,8 @@
     <div class="details" xmlns="http://www.w3.org/1999/xhtml">
     <div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">Score<b class='value'>${this.genre_6.score}</b></div>
     </div>
-    </div>
+    </div>`:""}
+    ${this.genre_7 ? `
     <div class="test">
     <div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml">
     <a href="${this.genre_7.media.siteUrl}"><img id="pfp-image" height="50px" width="35px" src="${this.genre_7.media.coverImage.medium}"/></a>
@@ -266,7 +278,8 @@
     <div class="details" xmlns="http://www.w3.org/1999/xhtml">
     <div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">Score<b class='value'>${this.genre_7.score}</b></div>
     </div>
-    </div>
+    </div>`:""}
+    ${this.genre_8 ? `
     <div class="test">
     <div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml">
     <a href="${this.genre_8.media.siteUrl}"><img id="pfp-image" height="50px" width="35px" src="${this.genre_8.media.coverImage.medium}"/></a>
@@ -277,6 +290,8 @@
     <div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">Score<b class='value'>${this.genre_8.score}</b></div>
     </div>
     </div>
+    `:""}
+    ${this.genre_9 ? `
     <div class="test">
     <div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml">
     <a href="${this.genre_9.media.siteUrl}"><img id="pfp-image" height="50px" width="35px" src="${this.genre_9.media.coverImage.medium}"/></a>
@@ -287,6 +302,8 @@
     <div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">Score<b class='value'>${this.genre_9.score}</b></div>
     </div>
     </div>
+    `:""}
+    ${this.genre_10 ? `
     <div class="test">
     <div class="imgDiv" height="100%" width="50%" xmlns="http://www.w3.org/1999/xhtml">
     <a href="${this.genre_10.media.siteUrl}"><img id="pfp-image" height="50px" width="35px" src="${this.genre_10.media.coverImage.medium}"/></a>
@@ -297,7 +314,7 @@
     <div class="cls-4" xmlns="http://www.w3.org/1999/xhtml">Score<b class='value'>${this.genre_10.score}</b></div>
     </div>
     </div>
-
+    `:""}
     </div>
     </div>
     </foreignObject>
