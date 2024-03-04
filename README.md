@@ -21,7 +21,7 @@ You can customize your stat card with URL parameters. These are all the possible
 <b>Url Parameters</b><br>
 <code>year</code> - <i>(Number (0-1))</i> Rating Year<br>
 <code>thisyear</code> - <i>(Number (0-1))</i> Show only anime released in the selected year<br>
-<code>currently</code> - <i>(Number (0-1))</i> Show only currently watched anime<br>
+<code>current</code> - <i>(Number (0-1))</i> Show only currently watching anime<br>
 <code>ona</code> - <i>(Number (0-1))</i> Allow ONA<br>
 <code>ova</code> - <i>(Number (0-1))</i> Allow OVA<br>
 <br>
